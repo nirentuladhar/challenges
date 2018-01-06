@@ -2,16 +2,14 @@ from data import DICTIONARY, LETTER_SCORES
 
 def load_words():
     """Load dictionary into a list and return list"""
-    return open("dictionary.txt").read().splitlines()
+    with open("dictionary.txt") as f:
+        return [word.strip() for word in f.read().split()]
+
      
 def calc_word_value(word):
     """Calculate the value of the word entered into function
     using imported constant mapping LETTER_SCORES"""
-    score = 0
-    for letter in word:
-        try: score += int(LETTER_SCORES[letter.upper()])
-        except: print("Unknown character '{}' in the word: {}.".format(letter, word))
-    return score
+    return sum([LETTER_SCORES.get(letter, 0) for letter in word.upper()])
 
 def max_word_value(words = load_words()):
     """Calculate the word with the max value, can receive a list
